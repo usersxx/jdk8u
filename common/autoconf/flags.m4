@@ -176,6 +176,27 @@ AC_DEFUN_ONCE([FLAGS_SETUP_COMPILER_FLAGS_FOR_LIBS],
       SET_SHARED_LIBRARY_MAPFILE='-Xlinker -version-script=[$]1'
     fi
   elif test "x$TOOLCHAIN_TYPE" = xclang; then
+    PICFLAG="-fPIC"
+    C_FLAG_REORDER=''
+    CXX_FLAG_REORDER=''
+
+
+    if test "x$OPENJDK_TARGET_OS" = xmacosx; then
+      # Linking is different on MacOSX
+      SHARED_LIBRARY_FLAGS="-dynamiclib -compatibility_version 1.0.0 -current_version 1.0.0 $PICFLAG"
+      SET_EXECUTABLE_ORIGIN='-Xlinker -rpath -Xlinker @loader_path/.'
+      SET_SHARED_LIBRARY_ORIGIN="$SET_EXECUTABLE_ORIGIN"
+      SET_SHARED_LIBRARY_NAME='-Xlinker -install_name -Xlinker @rpath/[$]1'
+      SET_SHARED_LIBRARY_MAPFILE=''
+    else
+      # Default works for linux, might work on other platforms as well.
+      SHARED_LIBRARY_FLAGS='-shared'
+      SET_EXECUTABLE_ORIGIN='-Xlinker -rpath -Xlinker \$$$$ORIGIN[$]1'
+      SET_SHARED_LIBRARY_ORIGIN="-Xlinker -z -Xlinker origin $SET_EXECUTABLE_ORIGIN"
+      SET_SHARED_LIBRARY_NAME='-Xlinker -soname=[$]1'
+      SET_SHARED_LIBRARY_MAPFILE='-Xlinker -version-script=[$]1'
+    fi
+  elif test "x$TOOLCHAIN_TYPE" = xclang; then
     PICFLAG=''
     C_FLAG_REORDER=''
     CXX_FLAG_REORDER=''
@@ -757,6 +778,23 @@ AC_DEFUN_ONCE([FLAGS_SETUP_COMPILER_FLAGS_FOR_JDK],
     LDFLAGS_JDKEXE="${LDFLAGS_JDK} /STACK:$LDFLAGS_STACK_SIZE"
   else
     if test "x$TOOLCHAIN_TYPE" = xgcc -o "x$TOOLCHAIN_TYPE" = xclang; then
+      # If this is a --hash-style=gnu system, use --hash-style=both, why?
+      # We have previously set HAS_GNU_HASH if this is the case
+      if test -n "$HAS_GNU_HASH"; then
+        LDFLAGS_JDK="${LDFLAGS_JDK} -Xlinker --hash-style=both "
+      fi
+      if test "x$OPENJDK_TARGET_OS" = xlinux; then
+        # And since we now know that the linker is gnu, then add:
+        #   -z defs, to forbid undefined symbols in object files
+        #   -z noexecstack, to mark stack regions as non-executable
+        LDFLAGS_JDK="${LDFLAGS_JDK} -Xlinker -z -Xlinker defs -Xlinker -z -Xlinker noexecstack"
+        if test "x$DEBUG_LEVEL" = "xrelease"; then
+          # When building release libraries, tell the linker optimize them.
+          # Should this be supplied to the OSS linker as well?
+          LDFLAGS_JDK="${LDFLAGS_JDK} -Xlinker -O1"
+        fi
+      fi
+    elif test "x$TOOLCHAIN_TYPE" = xclang; then
       # If this is a --hash-style=gnu system, use --hash-style=both, why?
       # We have previously set HAS_GNU_HASH if this is the case
       if test -n "$HAS_GNU_HASH"; then
