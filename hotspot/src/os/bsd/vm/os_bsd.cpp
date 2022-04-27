@@ -1521,6 +1521,7 @@ void * os::dll_load(const char *filename, char *ebuf, int ebuflen)
     {EM_PPC,         EM_PPC,     ELFCLASS32, ELFDATA2MSB, (char*)"Power PC 32"},
     {EM_PPC64,       EM_PPC64,   ELFCLASS64, ELFDATA2MSB, (char*)"Power PC 64"},
     {EM_ARM,         EM_ARM,     ELFCLASS32,   ELFDATA2LSB, (char*)"ARM"},
+    {EM_AARCH64,     EM_AARCH64, ELFCLASS64,   ELFDATA2LSB, (char*)"AARCH64"},
     {EM_S390,        EM_S390,    ELFCLASSNONE, ELFDATA2MSB, (char*)"IBM System/390"},
     {EM_ALPHA,       EM_ALPHA,   ELFCLASS64, ELFDATA2LSB, (char*)"Alpha"},
     {EM_MIPS_RS3_LE, EM_MIPS_RS3_LE, ELFCLASS32, ELFDATA2LSB, (char*)"MIPSel"},
@@ -1545,6 +1546,8 @@ void * os::dll_load(const char *filename, char *ebuf, int ebuflen)
     static  Elf32_Half running_arch_code=EM_PPC;
   #elif  (defined ARM)
     static  Elf32_Half running_arch_code=EM_ARM;
+  #elif  (defined AARCH64)
+    static  Elf32_Half running_arch_code=EM_AARCH64;
   #elif  (defined S390)
     static  Elf32_Half running_arch_code=EM_S390;
   #elif  (defined ALPHA)
