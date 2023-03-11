@@ -43,10 +43,20 @@ AC_DEFUN([PLATFORM_EXTRACT_VARS_FROM_CPU],
       VAR_CPU_ENDIAN=little
       ;;
     arm*)
+      case "$2" in
+        *darwin*)
+          VAR_CPU=aarch64
+          VAR_CPU_ARCH=aarch64
+          VAR_CPU_BITS=64
+          VAR_CPU_ENDIAN=little
+        ;;
+        *)
       VAR_CPU=arm
       VAR_CPU_ARCH=arm
       VAR_CPU_BITS=32
       VAR_CPU_ENDIAN=little
+      ;;
+      esac
       ;;
     aarch64)
       VAR_CPU=aarch64
