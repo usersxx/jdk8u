@@ -13672,15 +13672,15 @@ test -n "$target_alias" &&
       VAR_CPU_BITS=32
       VAR_CPU_ENDIAN=little
       ;;
+    arm*)
       case "$build_os" in
         *darwin*)
-          VAR_CPU=aarch64
-          VAR_CPU_ARCH=aarch64
-          VAR_CPU_BITS=64
-          VAR_CPU_ENDIAN=little
-        ;;
-        *)
-    arm*)
+           VAR_CPU=aarch64
+           VAR_CPU_ARCH=aarch64
+           VAR_CPU_BITS=64
+           VAR_CPU_ENDIAN=little
+         ;;
+         *)
       VAR_CPU=arm
       VAR_CPU_ARCH=arm
       VAR_CPU_BITS=32
@@ -13821,11 +13821,6 @@ $as_echo "$OPENJDK_BUILD_OS-$OPENJDK_BUILD_CPU" >&6; }
       VAR_CPU_ENDIAN=little
       ;;
     arm*)
-      VAR_CPU=arm
-      VAR_CPU_ARCH=arm
-      VAR_CPU_BITS=32
-      VAR_CPU_ENDIAN=little
-      ;;
       case "$host_os" in
         *darwin*)
           VAR_CPU=aarch64
@@ -13833,6 +13828,11 @@ $as_echo "$OPENJDK_BUILD_OS-$OPENJDK_BUILD_CPU" >&6; }
           VAR_CPU_BITS=64
           VAR_CPU_ENDIAN=little
         ;;
+      VAR_CPU=arm
+      VAR_CPU_ARCH=arm
+      VAR_CPU_BITS=32
+      VAR_CPU_ENDIAN=little
+      ;;
         *)
         esac
         ;;
