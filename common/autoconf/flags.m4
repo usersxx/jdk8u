@@ -494,6 +494,7 @@ AC_DEFUN_ONCE([FLAGS_SETUP_COMPILER_FLAGS_FOR_JDK],
   # Now setup the CFLAGS and LDFLAGS for the JDK build.
   # Later we will also have CFLAGS and LDFLAGS for the hotspot subrepo build.
   #
+
   FDLIBM_CFLAGS=""
   # Setup compiler/platform specific flags to CFLAGS_JDK,
   # CXXFLAGS_JDK and CCXXFLAGS_JDK (common to C and CXX?)
@@ -707,7 +708,6 @@ AC_DEFUN_ONCE([FLAGS_SETUP_COMPILER_FLAGS_FOR_JDK],
       if test "$OPENJDK_TARGET_CPU_ARCH" = "xaarch64"
         CFLAGS_JDK="${CFLAGS_JDK} -arch arm64"
         LDFLAGS_JDK="${LDFLAGS_JDK} -arch arm64"
-        
       fi
     fi
   fi
