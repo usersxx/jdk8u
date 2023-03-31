@@ -705,6 +705,10 @@ AC_DEFUN_ONCE([FLAGS_SETUP_COMPILER_FLAGS_FOR_JDK],
       # command line.
       CCXXFLAGS_JDK="$CCXXFLAGS_JDK -DMAC_OS_X_VERSION_MAX_ALLOWED=\$(subst .,,\$(MACOSX_VERSION_MIN)) -mmacosx-version-min=\$(MACOSX_VERSION_MIN)"
       LDFLAGS_JDK="$LDFLAGS_JDK -mmacosx-version-min=\$(MACOSX_VERSION_MIN)"
+      if test "$OPENJDK_TARGET_CPU_ARCH" = "xaarch64"
+        CFLAGS_JDK="${CFLAGS_JDK} -arch arm64"
+        LDFLAGS_JDK="${LDFLAGS_JDK} -arch arm64"
+      fi
     fi
   fi
 

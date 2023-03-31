@@ -356,7 +356,12 @@ ReservedHeapSpace::ReservedHeapSpace(size_t size, size_t alignment,
 ReservedCodeSpace::ReservedCodeSpace(size_t r_size,
                                      size_t rs_align,
                                      bool large) :
+#ifdef __arm64__
+
+  ReservedSpace(r_size, rs_align, large, /*executable*/ false) {
+#else
   ReservedSpace(r_size, rs_align, large, /*executable*/ true) {
+#endif
   MemTracker::record_virtual_memory_type((address)base(), mtCode);
 }
 
