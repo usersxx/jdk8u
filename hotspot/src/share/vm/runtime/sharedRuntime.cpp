@@ -108,12 +108,14 @@ UncommonTrapBlob*   SharedRuntime::_uncommon_trap_blob;
 
 //----------------------------generate_stubs-----------------------------------
 void SharedRuntime::generate_stubs() {
+#ifndef ZERO
   _wrong_method_blob                   = generate_resolve_blob(CAST_FROM_FN_PTR(address, SharedRuntime::handle_wrong_method),          "wrong_method_stub");
   _wrong_method_abstract_blob          = generate_resolve_blob(CAST_FROM_FN_PTR(address, SharedRuntime::handle_wrong_method_abstract), "wrong_method_abstract_stub");
   _ic_miss_blob                        = generate_resolve_blob(CAST_FROM_FN_PTR(address, SharedRuntime::handle_wrong_method_ic_miss),  "ic_miss_stub");
   _resolve_opt_virtual_call_blob       = generate_resolve_blob(CAST_FROM_FN_PTR(address, SharedRuntime::resolve_opt_virtual_call_C),   "resolve_opt_virtual_call");
   _resolve_virtual_call_blob           = generate_resolve_blob(CAST_FROM_FN_PTR(address, SharedRuntime::resolve_virtual_call_C),       "resolve_virtual_call");
   _resolve_static_call_blob            = generate_resolve_blob(CAST_FROM_FN_PTR(address, SharedRuntime::resolve_static_call_C),        "resolve_static_call");
+#endif
 
 #ifdef COMPILER2
   // Vectors are generated only by C2.
@@ -2384,7 +2386,12 @@ void AdapterHandlerLibrary::initialize() {
   // throw AbstractMethodError just in case.
   // Pass wrong_method_abstract for the c2i transitions to return
   // AbstractMethodError for invalid invocations.
-  address wrong_method_abstract = SharedRuntime::get_handle_wrong_method_abstract_stub();
+  address wrong_method_abstract =
+#ifdef ZERO
+                                  NULL;
+#else
+                                  SharedRuntime::get_handle_wrong_method_abstract_stub();
+#endif
   _abstract_method_handler = AdapterHandlerLibrary::new_entry(new AdapterFingerPrint(0, NULL),
                                                               StubRoutines::throw_AbstractMethodError_entry(),
                                                               wrong_method_abstract, wrong_method_abstract);
