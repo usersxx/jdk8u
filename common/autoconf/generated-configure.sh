@@ -13,7 +13,7 @@
 #
 # Copyright (C) 1992-1996, 1998-2012 Free Software Foundation, Inc.
 #
-#
+#'
 # This configure script is free software; the Free Software Foundation
 # gives unlimited permission to copy, distribute and modify it.
 ## -------------------- ##
@@ -42874,7 +42874,7 @@ $as_echo "$supports" >&6; }
       # newer than the given OS version and makes the linked binaries compatible
       # even if built on a newer version of the OS.
       # The expected format is X.Y.Z
-      MACOSX_VERSION_MIN=10.7.0
+      MACOSX_VERSION_MIN=10.5.0
 
 
       # The macro takes the version with no dots, ex: 1070
@@ -42890,7 +42890,7 @@ $as_echo "$supports" >&6; }
       # newer than the given OS version and makes the linked binaries compatible
       # even if built on a newer version of the OS.
       # The expected format is X.Y.Z
-      MACOSX_VERSION_MIN=10.9.0
+      MACOSX_VERSION_MIN=10.5.0
 
 
       # The macro takes the version with no dots, ex: 1070
