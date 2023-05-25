@@ -43,11 +43,20 @@ AC_DEFUN([PLATFORM_EXTRACT_VARS_FROM_CPU],
       VAR_CPU_ENDIAN=little
       ;;
     arm*)
-      VAR_CPU=arm
-      VAR_CPU_ARCH=arm
-      VAR_CPU_BITS=32
-      VAR_CPU_ENDIAN=little
-      ;;
+      case "$2" in
+        *darwin*)
+          VAR_CPU=aarch64
+          VAR_CPU_ARCH=aarch64
+          VAR_CPU_BITS=64
+          VAR_CPU_ENDIAN=little
+        ;;
+        *)
+          VAR_CPU=arm
+          VAR_CPU_ARCH=arm
+          VAR_CPU_BITS=32
+          VAR_CPU_ENDIAN=little
+        ;;
+      esac
     aarch64)
       VAR_CPU=aarch64
       VAR_CPU_ARCH=aarch64
@@ -168,7 +177,7 @@ AC_DEFUN([PLATFORM_EXTRACT_TARGET_AND_BUILD],
 
   # Convert the autoconf OS/CPU value to our own data, into the VAR_OS/CPU variables.
   PLATFORM_EXTRACT_VARS_FROM_OS($build_os)
-  PLATFORM_EXTRACT_VARS_FROM_CPU($build_cpu)
+  PLATFORM_EXTRACT_VARS_FROM_CPU($build_cpu, $build_os)
   # ..and setup our own variables. (Do this explicitely to facilitate searching)
   OPENJDK_BUILD_OS="$VAR_OS"
   OPENJDK_BUILD_OS_API="$VAR_OS_API"
@@ -190,7 +199,7 @@ AC_DEFUN([PLATFORM_EXTRACT_TARGET_AND_BUILD],
 
   # Convert the autoconf OS/CPU value to our own data, into the VAR_OS/CPU variables.
   PLATFORM_EXTRACT_VARS_FROM_OS($host_os)
-  PLATFORM_EXTRACT_VARS_FROM_CPU($host_cpu)
+  PLATFORM_EXTRACT_VARS_FROM_CPU($host_cpu, $host_os)
   # ... and setup our own variables. (Do this explicitely to facilitate searching)
   OPENJDK_TARGET_OS="$VAR_OS"
   OPENJDK_TARGET_OS_API="$VAR_OS_API"
