@@ -37,7 +37,6 @@
 #import "JavaTextAccessibility.h"
 #import "JavaAccessibilityUtilities.h"
 #import "GeomUtilities.h"
-#import "OSVersion.h"
 #import "CGLLayer.h"
 
 @interface AWTView()
@@ -53,13 +52,6 @@
 // Uncomment this line to see fprintfs of each InputMethod API being called on this View
 //#define IM_DEBUG TRUE
 //#define EXTRA_DEBUG
-
-static BOOL shouldUsePressAndHold() {
-    static int shouldUsePressAndHold = -1;
-    if (shouldUsePressAndHold != -1) return shouldUsePressAndHold;
-    shouldUsePressAndHold = !isSnowLeopardOrLower();
-    return shouldUsePressAndHold;
-}
 
 @implementation AWTView
 
@@ -83,7 +75,7 @@ AWT_ASSERT_APPKIT_THREAD;
     fKeyEventsNeeded = NO;
     fProcessingKeystroke = NO;
 
-    fEnablePressAndHold = shouldUsePressAndHold();
+    fEnablePressAndHold = YES;
     fInPressAndHold = NO;
     fPAHNeedsToSelect = NO;
 

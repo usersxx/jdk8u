@@ -228,6 +228,8 @@ static InvocationFunctions *GetExportedJNIFunctions() {
         preferredJVM = "client";
 #elif defined(__x86_64__)
         preferredJVM = "server";
+#elif defined(__arm64__)
+        preferredJVM = "zero";
 #else
 #error "Unknown architecture - needs definition"
 #endif
