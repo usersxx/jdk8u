@@ -681,7 +681,7 @@ AC_DEFUN_ONCE([FLAGS_SETUP_COMPILER_FLAGS_FOR_JDK],
       # newer than the given OS version and makes the linked binaries compatible 
       # even if built on a newer version of the OS.
       # The expected format is X.Y.Z
-      MACOSX_VERSION_MIN=10.7.0
+      MACOSX_VERSION_MIN=10.5.0
       AC_SUBST(MACOSX_VERSION_MIN)
     
       # The macro takes the version with no dots, ex: 1070
@@ -705,6 +705,10 @@ AC_DEFUN_ONCE([FLAGS_SETUP_COMPILER_FLAGS_FOR_JDK],
       # command line.
       CCXXFLAGS_JDK="$CCXXFLAGS_JDK -DMAC_OS_X_VERSION_MAX_ALLOWED=\$(subst .,,\$(MACOSX_VERSION_MIN)) -mmacosx-version-min=\$(MACOSX_VERSION_MIN)"
       LDFLAGS_JDK="$LDFLAGS_JDK -mmacosx-version-min=\$(MACOSX_VERSION_MIN)"
+      if test "$OPENJDK_TARGET_CPU_ARCH" = "xaarch64"
+        CFLAGS_JDK="${CFLAGS_JDK} -arch arm64"
+        LDFLAGS_JDK="${LDFLAGS_JDK} -arch arm64"
+      fi
     fi
   fi
 
